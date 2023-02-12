@@ -1,10 +1,11 @@
 
-import React, { useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import validator from 'validator';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import View from '../componenets/View';
+import App from '../App';
+// import './App.css';
 
 
 
@@ -24,6 +25,7 @@ const getDatafromLS=()=>{
 
 function Dashboard() {
   const[userinfo,setuserinfo]=useState(getDatafromLS());
+  const [filterdata, setFilterdata]= useState(getDatafromLS());
   const initialValue={username:"",email:"",pasword:"",phoneNo:""};
   const [foamValue, setFormValue]= useState(initialValue);
   const [userError, setUserError]= useState('');
@@ -31,10 +33,12 @@ function Dashboard() {
   const [paswordError, setPaswordError]= useState('');
   const [phoneError, setPhoneError]= useState('');
   const [issubmit, setissubmit]= useState(false);
-  const [visible, setvisible]= useState(false);
+   const [visible, setvisible]= useState(false);
+  
   
   
   const handleOnChange=(e)=>{
+   
     const {name,value}=e.target;
     setFormValue({...foamValue,[name]:value});
     console.log(foamValue);
@@ -51,38 +55,58 @@ function Dashboard() {
         
         setUserError ('enter user name');
         issubmit(false);
+        console.log(issubmit);
+        console.log(foamValue.username);
       }
       else{
         setUserError ('');
+        console.log(foamValue.username);
+
         setissubmit(true);
+        console.log(issubmit);
       }
       if(validator.isEmail(foamValue.email)) {
         setEmailError('')
         setissubmit(true);
+        console.log(issubmit);
+        console.log(foamValue.email);
       } else {
         setEmailError('Enter valid Email!')
         issubmit(false);
+        console.log(issubmit);
+        console.log(foamValue.email);
       }
       if(foamValue.pasword.length<5){
         setPaswordError('pasword must be six character')
         issubmit(false);
+        console.log(issubmit);
+        console.log(foamValue.pasword);
       }else{
       setPaswordError('')
       setissubmit(true);
+      console.log(issubmit);
+      console.log(foamValue.pasword);
+
       }
       if(foamValue.phoneNo===""){
         setPhoneError('Phone# is required')
         issubmit(false);
+        console.log(issubmit);
+        console.log(foamValue.phoneNo);
       }
       else{
         setPhoneError('')
         setissubmit(true);
+        console.log(issubmit);
+        console.log(foamValue.phoneNo);
       }
       if(issubmit===false){
-        //alert("some thing is missing")
+        console.log(issubmit);
+       // alert("some thing is missing")
 
       }
       else{
+        console.log(issubmit);
         const userNames=foamValue.username;
         const useremails=foamValue.email;
         const userpass=foamValue.pasword;
@@ -94,28 +118,34 @@ function Dashboard() {
           userphone
         }
         setuserinfo([...userinfo,userinformation])
+        setFilterdata([...filterdata,userinformation]);
        // alert("entered sucessfully")
         localStorage.setItem("userinfos",JSON.stringify(userinfo)); 
-        setvisible(false) ; 
+        
+        setvisible(true) ; 
       }
-    }
-   
       
-  
+    }
+    useEffect(() => { 
+      
+      if(userError===""&& emailError===""&&paswordError===""&&phoneError===""){
+      localStorage.setItem("userinfos",JSON.stringify(userinfo)); 
+      }
+      });
 
-  
-  
   return (
+<>
     <div className="container">
    
-       {visible &&
-      <div className="foamcontainer">
+       {!visible &&
+      <div className="foamcontainerss">
+       
 
     <Form>
     <h1> Registration Form</h1>
     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>User Name</Form.Label>
-        <Form.Control type="username" name= "username" placeholder="Enter User Name" value={foamValue.username} onChange={handleOnChange}/>
+        <Form.Control id='username' type="username" name= "username" placeholder="Enter User Name" value={foamValue.username} onChange={handleOnChange}/>
       
       </Form.Group>
       <span style={{
@@ -127,7 +157,7 @@ function Dashboard() {
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         
-        <Form.Control type="email" name= "email" placeholder="Enter email" value={foamValue.email} onChange={handleOnChange}/>
+        <Form.Control id='email' type="email" name= "email" placeholder="Enter email" value={foamValue.email} onChange={handleOnChange}/>
 
         <span style={{
           fontSize:15,
@@ -138,7 +168,7 @@ function Dashboard() {
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         
-        <Form.Control type="password" name= "pasword" placeholder="password" value={foamValue.pasword} onChange={handleOnChange}/>
+        <Form.Control id='paswords' type="password" name= "pasword" placeholder="password" value={foamValue.pasword} onChange={handleOnChange}/>
 
         <span style={{
           fontSize:15,
@@ -148,7 +178,7 @@ function Dashboard() {
 
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Phone Number</Form.Label>
-        <Form.Control type="phoneNo" name= "phoneNo" placeholder="phoneNo" value={foamValue.phoneNo} onChange={handleOnChange}/>
+        <Form.Control id='phone' type="phoneNo" name= "phoneNo" placeholder="phoneNo" value={foamValue.phoneNo} onChange={handleOnChange}/>
         <span style={{
           fontSize:15,
           color: 'red',
@@ -167,46 +197,14 @@ function Dashboard() {
       </Button>
       
     </Form>
+  
     </div> 
-}
-   {!visible &&
-    <div className="view_container">
-
-    <div className='table_cont'>
-    {userinfo.length>0&&<>
-            <div className='table-responsive'>
-              <table border={3} width="30px" cellPadding={10} className='table'>
-                <thead>
-                  <tr>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <View userinfo={userinfo}/>
-                </tbody>
-              </table>
-            </div>
-
-          </>}
-          </div>
-          <div className="tablebtn">
-          {/* {userinfo.length < 1 && <div>No User Added</div>} */}
-          <Button variant="primary" className="adduserbtn" type="adduserbtn" onClick={()=>setvisible(true)} style={{
-         
-       marginLeft:10
-      }}>
-        Add New User 
-      </Button>
-      
-      </div>
-    </div>
-}
-    </div> 
-    
-    
-
+    }
+   </div> 
+    {visible&&
+      <App/>
+     }
+</>
   )
 }
 

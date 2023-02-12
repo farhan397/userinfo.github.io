@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  
   box-sizing: border-box;
 }
 .sidebar{
@@ -38,6 +39,7 @@ padding: 15px 10px;
   
   
 }
+
 .link{
   display:flex;
   color: white;
@@ -59,10 +61,13 @@ a{
 }
 .main-container{
   display: flex;
+  background-color: #d5d1e7;
 }
 
 main{
-  padding: 20px;
+  padding: 2px; 
+  width: 100%;
+  
 }
 .title{
   font-size: 30px;
@@ -72,25 +77,51 @@ main{
   font-size: 15px;
 }
 /*dashborad styling*/
-.foamcontainer{
-background: #eaeaee;
+.foamcontainerss{
 
-background: radial-gradient(circle,rgb(139, 6, 6));
+vertical-align: center;
+margin-left: 35%;
+margin-top:35px;
+padding: 1rem;
+background-color: rgba(205, 230, 245, 0.4);
 }
-.view_container{
-  
-  display: flex;
-  
- 
-}
-.table_cont{
+.searchuser{
+  width: 950px;
   margin-left: 30px;
   
+  
+  /* padding: 5px 15px; */
+  
+}
+.searchuser input{
+  border: 2px;
+  border-radius: 10px;
+  /* margin: 20px;
+  border-color: #04AA6D; */
+  background: rgb(199, 198, 202);
+  color: #050505;
+  
+}
+
+.table_cont{
+  margin-left: 30px;
+  width:1000px
+  
+}
+.mainuser{
+  display: flex;
 }
 
 .savebtn{
-  padding: 20px;
+  
   margin: 20px;
+}
+.adduserbtn{
+  background: #5505d6;
+  color: white;
+  margin-left: 10px;
+  margin: 5px;
+  
 }
 
 .container{
@@ -99,7 +130,7 @@ background: radial-gradient(circle,rgb(139, 6, 6));
 table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 100%
 }
 
 table td, table th {
@@ -107,9 +138,17 @@ table td, table th {
   padding: 8px;
 }
 
-table tr:nth-child(even){background-color: #f2f2f2;}
+table tr:nth-child(even){
+  background-color: #f2f2f2;
+  
+}
+.table tr {
+  text-align: center;
+}
 
-table tr:hover {background-color: #ddd;}
+table tr:hover {
+  background-color: #ddd;
+}
 
 table th {
   padding-top: 12px;
@@ -118,3 +157,44 @@ table th {
   background-color: #04AA6D;
   color: rgb(10, 10, 10);
 }
+
+.loginsection {
+  width: 100%;
+ 
+  max-width: 420px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-left:35%;
+  margin-top: 10%;
+  padding: 1rem;
+  background-color: rgba(205, 230, 245, 0.4);
+  
+} 
+.foameditfoam{
+  
+  margin-left:400px;
+  margin-top: 50px;
+  padding: 1rem;
+  background-color: rgba(205, 230, 245, 0.4);
+
+}
+.view_container {
+ margin-top: 100px;
+ 
+}
+
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content:flex-end;
+	height: 80px;
+	padding: 0 2rem;
+  border-radius: 12px;
+	background: #b0afb8;
+	
+}
+
+
+

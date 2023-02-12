@@ -1,17 +1,32 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import React, {useEffect,useState } from 'react'
 import{FaBars, FaHome,FaUser} from 'react-icons/fa'
 import { MdMessage } from "react-icons/md";
-import { BiAnalyse, BiSearch} from "react-icons/bi";
+import { BiAnalyse, BiColorFill, BiSearch} from "react-icons/bi";
 import {AiTwotoneFileExclamation,AiFillHeart } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { NavLink } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import App from '../App';
+
+
+const Loginuserdetail=()=>{
+    const data = localStorage.getItem('logoutinfo');
+    if(data){
+      return JSON.parse(data);
+    }
+    else{
+      return []
+    }
+  }
+  
 const routes=[
     {
         path:"/",
         name:"Home",
         icon:<FaHome/>
     },
+   
     {
         path: "/users",
         name: "Users",
@@ -45,7 +60,22 @@ const routes=[
 ]
 const Sidebar = ({children}) => {
 
+    const [visible, setvisible]= useState(false);
+    const [name, setname]= useState("");
+    const [phone, setphone]= useState("");
+    const[userinfo,setuserinfo]=useState(Loginuserdetail());
+    const navigate = useNavigate();
+
+
     const [isOpen,setIsOpen]=useState(false);
+
+    useEffect(() => { userinfo.map(item=>(
+         setname(item.userNames.toUpperCase()),
+        setphone(item.userphone)
+       ))  });
+    
+
+
     const toggle=()=>setIsOpen(!isOpen);
      const inputAnimation={
         hidden:{
@@ -83,18 +113,29 @@ const Sidebar = ({children}) => {
                 },
             },
         };
-    
+       
 
+        const handlelogout=(e)=>{
+            e.preventDefault(); 
+            setvisible(true);
+            localStorage.removeItem("logoutinfo")
+            navigate("/");
+            window.location.reload(true)
+
+
+    
+        }
 
   return (
         <div className="main-container">
+            
             <motion.div animate={{width:isOpen ? "200px" :"40px" ,
           transition:{
             duration:0.5,
             type:"spring",
             damping:11,
-          },
-          }} className="sidebar">
+              },
+              }} className="sidebar">
                  <div className="top_section">
                     {isOpen && <h1 className="logo">Side bar</h1>}
                     
@@ -142,7 +183,46 @@ const Sidebar = ({children}) => {
 
             </motion.div>
 
-            <main>{children}</main>
+            <main>
+                <header>
+			
+			     
+				<nav className="profile" style={{
+
+                    // backgroundColor:'rgb(10, 2, 41)',
+                    padding:2,
+                    marginRight:40,
+                    borderRadius:'12px',
+                    color:'white'
+
+                }}>
+                   {name}<br/>
+                 Phone# {phone}
+                </nav>
+                
+					
+           
+			<button className="nav-btn" on onClick={handlelogout} style={{
+                padding:'12px 28px',
+                backgroundColor:'rgb(10, 2, 41)',
+                borderRadius: '12px',
+                borderColor:'rgb(10, 2, 41)',
+                color:'white'
+                }}>
+				Log out
+			</button>
+		</header>
+                
+                
+                
+                {children}</main>
+                {/* {visible &&
+
+                    
+                 
+                  window.location.reload(true)
+               
+                } */}
 
         </div>
   )
